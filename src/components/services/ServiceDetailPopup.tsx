@@ -8,7 +8,8 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, ArrowRight } from 'lucide-react';
+import { useToast } from "@/hooks/use-toast";
 
 interface ServiceDetailProps {
   title: string;
@@ -27,6 +28,25 @@ const ServiceDetailPopup = ({
   isOpen,
   onClose
 }: ServiceDetailProps) => {
+  const { toast } = useToast();
+  
+  const handleContactClick = () => {
+    // Close the dialog
+    onClose();
+    
+    // Show a toast notification
+    toast({
+      title: "Contact Request Initiated",
+      description: "Redirecting you to our contact page...",
+      duration: 3000,
+    });
+    
+    // Navigate to contact page
+    setTimeout(() => {
+      window.location.href = '/contact';
+    }, 500);
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-3xl overflow-y-auto max-h-[90vh]">
@@ -43,7 +63,7 @@ const ServiceDetailPopup = ({
             {benefits.map((benefit, index) => (
               <li key={index} className="flex items-start">
                 <CheckCircle2 size={20} className="text-bps-red mr-2 mt-1 flex-shrink-0" />
-                <span>{benefit}</span>
+                <span className="text-gray-800">{benefit}</span>
               </li>
             ))}
           </ul>
@@ -53,7 +73,7 @@ const ServiceDetailPopup = ({
           <h3 className="text-lg font-semibold mb-3">Our Offerings</h3>
           <div className="space-y-4">
             {offerings.map((offering, index) => (
-              <div key={index} className="bg-gray-50 p-4 rounded-lg">
+              <div key={index} className="bg-gray-50 p-4 rounded-lg hover:shadow-md transition-shadow">
                 <h4 className="font-medium text-bps-darkblue">{offering.title}</h4>
                 <p className="text-gray-600 text-sm mt-1">{offering.description}</p>
               </div>
@@ -70,13 +90,10 @@ const ServiceDetailPopup = ({
             Close
           </Button>
           <Button 
-            onClick={() => {
-              onClose();
-              window.location.href = '/contact';
-            }}
-            className="bg-bps-red hover:bg-bps-darkred text-white"
+            onClick={handleContactClick}
+            className="bg-bps-red hover:bg-bps-darkred text-white flex items-center"
           >
-            Contact Us
+            Contact Us <ArrowRight className="ml-1 h-4 w-4" />
           </Button>
         </div>
       </DialogContent>

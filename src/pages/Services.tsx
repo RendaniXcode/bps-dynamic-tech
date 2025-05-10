@@ -1,11 +1,12 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Card, CardContent } from '@/components/ui/card';
 import CTAButton from '@/components/common/CTAButton';
 import { Cloud, Server, Bot, Smartphone, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ServiceDetailPopup from '@/components/services/ServiceDetailPopup';
+import { useLocation } from 'react-router-dom';
 
 // Define service detail content
 const serviceDetails = {
@@ -166,7 +167,10 @@ const ServiceSection = ({
 
   return (
     <>
-      <div className={`flex flex-col ${isReversed ? 'md:flex-row-reverse' : 'md:flex-row'} gap-8 items-center mb-16`}>
+      <div 
+        id={serviceKey}
+        className={`flex flex-col ${isReversed ? 'md:flex-row-reverse' : 'md:flex-row'} gap-8 items-center mb-16 scroll-mt-20`}
+      >
         <div className="md:w-1/2">
           <div className="flex items-center mb-4">
             <div className="p-3 rounded-full bg-bps-lightgray text-bps-red mr-3">
@@ -224,6 +228,40 @@ const ServiceSection = ({
 };
 
 const Services = () => {
+  const location = useLocation();
+  const [activeService, setActiveService] = useState<string | null>(null);
+  
+  useEffect(() => {
+    // Check if there's a hash in the URL
+    if (location.hash) {
+      const serviceId = location.hash.substring(1);
+      
+      // Scroll to the section
+      const element = document.getElementById(serviceId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+        
+        // Open the popup for the selected service
+        setActiveService(serviceId);
+      }
+    }
+  }, [location]);
+
+  useEffect(() => {
+    if (activeService && serviceDetails[activeService as keyof typeof serviceDetails]) {
+      // Wait a bit to ensure smooth scrolling has completed
+      const timer = setTimeout(() => {
+        // Find the button and click it to open the popup
+        const button = document.querySelector(`#${activeService} button`);
+        if (button instanceof HTMLElement) {
+          button.click();
+        }
+      }, 800);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [activeService]);
+  
   return (
     <>
       <Helmet>

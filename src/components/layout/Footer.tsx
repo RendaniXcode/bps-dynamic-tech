@@ -7,6 +7,16 @@ import { Facebook, Linkedin, Mail, MapPin, Phone, Twitter, Instagram } from "luc
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
+  // Define services with their respective section IDs for direct navigation
+  const services = [
+    { name: "Cloud Consulting", sectionId: "cloud" },
+    { name: "Cloud Migration", sectionId: "cloud" },
+    { name: "Cloud Training", sectionId: "cloud" },
+    { name: "Cloud Optimization", sectionId: "cloud" },
+    { name: "AI Solutions", sectionId: "ai" },
+    { name: "App Development", sectionId: "app" }
+  ];
+
   return (
     <footer className="bg-bps-darkblue text-white">
       <div className="container mx-auto px-4 py-12 md:py-16">
@@ -37,12 +47,16 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Our Services</h3>
             <ul className="space-y-2 text-gray-300">
-              <li><Link to="/services" className="hover:text-bps-red transition-colors">Cloud Consulting</Link></li>
-              <li><Link to="/services" className="hover:text-bps-red transition-colors">Cloud Migration</Link></li>
-              <li><Link to="/services" className="hover:text-bps-red transition-colors">Cloud Training</Link></li>
-              <li><Link to="/services" className="hover:text-bps-red transition-colors">Cloud Optimization</Link></li>
-              <li><Link to="/services" className="hover:text-bps-red transition-colors">AI Solutions</Link></li>
-              <li><Link to="/services" className="hover:text-bps-red transition-colors">App Development</Link></li>
+              {services.map((service, index) => (
+                <li key={index}>
+                  <Link 
+                    to={`/services#${service.sectionId}`} 
+                    className="hover:text-bps-red transition-colors"
+                  >
+                    {service.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 

@@ -3,26 +3,30 @@ import React from 'react';
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Cloud, Server, Bot, Smartphone } from "lucide-react";
 import CTAButton from '../common/CTAButton';
+import { Link } from 'react-router-dom';
 
 interface ServiceCardProps {
   title: string;
   description: string;
   icon: React.ReactNode;
+  serviceId: string;
 }
 
-const ServiceCard = ({ title, description, icon }: ServiceCardProps) => {
+const ServiceCard = ({ title, description, icon, serviceId }: ServiceCardProps) => {
   return (
-    <Card className="border-none shadow-md hover:shadow-lg transition-shadow">
-      <CardHeader className="flex justify-center">
-        <div className="p-3 rounded-full bg-bps-lightgray text-bps-red mb-4">
-          {icon}
-        </div>
-        <h3 className="text-xl font-semibold text-center">{title}</h3>
-      </CardHeader>
-      <CardContent>
-        <p className="text-gray-600 text-center">{description}</p>
-      </CardContent>
-    </Card>
+    <Link to={`/services#${serviceId}`} className="block h-full">
+      <Card className="border-none shadow-md hover:shadow-lg transition-shadow h-full">
+        <CardHeader className="flex justify-center">
+          <div className="p-3 rounded-full bg-bps-lightgray text-bps-red mb-4">
+            {icon}
+          </div>
+          <h3 className="text-xl font-semibold text-center">{title}</h3>
+        </CardHeader>
+        <CardContent>
+          <p className="text-gray-600 text-center">{description}</p>
+        </CardContent>
+      </Card>
+    </Link>
   );
 };
 
@@ -31,22 +35,26 @@ const ServicesOverview = () => {
     {
       title: "Cloud Services",
       description: "We Offer Cloud Migration, Managed Services, Cloud Computing Training for GCP, AWS, and Azure, Linux, OpenShift, Automation",
-      icon: <Cloud size={32} />
+      icon: <Cloud size={32} />,
+      serviceId: "cloud"
     },
     {
       title: "Information Technology",
       description: "Benefit from our scalable solutions and leverage the power of the cloud with dedicated support from your personal consultant.",
-      icon: <Server size={32} />
+      icon: <Server size={32} />,
+      serviceId: "technology"
     },
     {
       title: "AI Solutions",
       description: "Custom AI solutions for businesses leveraging OpenAI, Azure AI, AWS Bedrock & GCP. From strategy to implementation.",
-      icon: <Bot size={32} />
+      icon: <Bot size={32} />,
+      serviceId: "ai"
     },
     {
       title: "App Development",
       description: "Professional app development for iOS & Android with guaranteed App Store submissions for clients in South Africa, Africa, Europe & USA.",
-      icon: <Smartphone size={32} />
+      icon: <Smartphone size={32} />,
+      serviceId: "app"
     }
   ];
 
@@ -67,6 +75,7 @@ const ServicesOverview = () => {
               title={service.title}
               description={service.description}
               icon={service.icon}
+              serviceId={service.serviceId}
             />
           ))}
         </div>
