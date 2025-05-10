@@ -47,7 +47,7 @@ const Navbar = () => {
               ))}
             </div>
             <Button asChild className="bg-bps-red hover:bg-bps-darkred">
-              <NavLink to="/contact">Consult Now!</NavLink>
+              <NavLink to="/book-consultation">Book Consultation</NavLink>
             </Button>
           </div>
 
@@ -90,7 +90,7 @@ const Navbar = () => {
                 className="w-full bg-bps-red hover:bg-bps-darkred"
                 onClick={() => setIsOpen(false)}
               >
-                <NavLink to="/contact">Consult Now!</NavLink>
+                <NavLink to="/book-consultation">Book Consultation</NavLink>
               </Button>
             </div>
           </div>

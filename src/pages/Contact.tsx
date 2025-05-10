@@ -3,6 +3,9 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import ContactForm from '@/components/contact/ContactForm';
 import ContactInfo from '@/components/contact/ContactInfo';
+import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { CalendarClock } from 'lucide-react';
 
 const Contact = () => {
   return (
@@ -16,10 +19,15 @@ const Contact = () => {
       <div className="bg-gradient-to-br from-gray-50 to-gray-100 py-16 md:py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-gradient mb-4">Contact Us</h1>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-8">
             We're here to help you navigate your technology challenges and explore new opportunities for innovation. 
             Our team is ready to assist you.
           </p>
+          <Button asChild className="bg-bps-red hover:bg-bps-darkred">
+            <Link to="/book-consultation" className="flex items-center">
+              <CalendarClock className="mr-2" /> Book a Consultation
+            </Link>
+          </Button>
         </div>
       </div>
 
