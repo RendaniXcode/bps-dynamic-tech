@@ -4,7 +4,7 @@ import Hero from '@/components/home/Hero';
 import IntroSection from '@/components/home/IntroSection';
 import ServicesOverview from '@/components/home/ServicesOverview';
 import ProcessSection from '@/components/home/ProcessSection';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 const Index = () => {
   return (

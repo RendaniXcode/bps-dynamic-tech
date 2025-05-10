@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { Card, CardContent } from '@/components/ui/card';
 import CTAButton from '@/components/common/CTAButton';
 import { Cloud, Server, Bot, Smartphone, CheckCircle2 } from 'lucide-react';
