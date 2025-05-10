@@ -1,4 +1,3 @@
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -69,7 +68,18 @@ const BookingForm = () => {
 
   const onSubmit = async (data: BookingFormValues) => {
     try {
-      const response = await submitConsultationBooking(data);
+      // Explicitly pass all required fields and optional fields
+      const response = await submitConsultationBooking({
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        company: data.company,
+        service: data.service,
+        consultationType: data.consultationType,
+        datePreference: data.datePreference,
+        timePreference: data.timePreference,
+        message: data.message
+      });
       
       // Handle successful submission
       setApiResponse({

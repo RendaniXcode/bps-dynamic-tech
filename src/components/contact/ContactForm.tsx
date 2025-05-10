@@ -1,4 +1,3 @@
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -51,7 +50,13 @@ const ContactForm = () => {
 
   const onSubmit = async (data: ContactFormValues) => {
     try {
-      const response = await submitContactForm(data);
+      // Since data is validated by Zod, we can safely pass it to the API
+      const response = await submitContactForm({
+        fullName: data.fullName,
+        email: data.email,
+        phoneNumber: data.phoneNumber,
+        message: data.message
+      });
       
       // Handle successful submission
       setApiResponse({
