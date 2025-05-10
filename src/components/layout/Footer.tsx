@@ -90,10 +90,42 @@ const Footer = () => {
           <div>
             <h3 className="text-base font-semibold mb-3">Quick Links</h3>
             <ul className="space-y-2 text-xs text-gray-300">
-              <li><Link to="/" className="hover:text-bps-red transition-colors">Home</Link></li>
-              <li><Link to="/about" className="hover:text-bps-red transition-colors">About</Link></li>
-              <li><Link to="/services" className="hover:text-bps-red transition-colors">Services</Link></li>
-              <li><Link to="/contact" className="hover:text-bps-red transition-colors">Contact</Link></li>
+              <li>
+                <Link 
+                  to="/" 
+                  className="hover:text-bps-red transition-colors"
+                  onClick={() => window.scrollTo(0, 0)}
+                >
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/about" 
+                  className="hover:text-bps-red transition-colors"
+                  onClick={() => window.scrollTo(0, 0)}
+                >
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/services" 
+                  className="hover:text-bps-red transition-colors"
+                  onClick={() => window.scrollTo(0, 0)}
+                >
+                  Services
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/contact" 
+                  className="hover:text-bps-red transition-colors"
+                  onClick={() => window.scrollTo(0, 0)}
+                >
+                  Contact
+                </Link>
+              </li>
             </ul>
           </div>
 

@@ -24,6 +24,17 @@ export const scrollToElement = (elementId: string, offset = 0): void => {
 };
 
 /**
+ * Scrolls to the top of the page
+ * @param smooth Whether to use smooth scrolling (default: true)
+ */
+export const scrollToTop = (smooth = true): void => {
+  window.scrollTo({
+    top: 0,
+    behavior: smooth ? 'smooth' : 'auto'
+  });
+};
+
+/**
  * Handles scrolling to a section specified in the URL hash on page load
  * @param headerOffset Offset for fixed headers (in pixels)
  */
@@ -31,10 +42,14 @@ export const handleHashScroll = (headerOffset = 80): void => {
   if (window.location.hash) {
     const id = window.location.hash.substring(1);
     scrollToElement(id, headerOffset);
+  } else {
+    // If no hash, scroll to top
+    scrollToTop(false);
   }
 };
 
 export default {
   scrollToElement,
+  scrollToTop,
   handleHashScroll
 };

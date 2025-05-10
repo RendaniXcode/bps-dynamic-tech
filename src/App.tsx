@@ -26,10 +26,8 @@ const LoadingFallback = () => (
   </div>
 );
 
-const getScrollTo = () => {
-  // @ts-expect-error
-  return <scrollTo/>;
-}
+// @ts-ignore
+// @ts-ignore
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -37,7 +35,7 @@ const App = () => (
       <Sonner/>
       <HelmetProvider>
         <BrowserRouter>
-          {getScrollTo()}
+          {scrollTo()}
           <div className="flex flex-col min-h-screen">
             <Navbar/>
             <main className="flex-grow">
