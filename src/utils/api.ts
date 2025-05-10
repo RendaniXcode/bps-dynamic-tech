@@ -13,8 +13,9 @@ export const submitContactForm = async (formData: {
   message: string;
 }) => {
   try {
-    const response = await fetch('https://api.bpsdynamic.com/contact', {
+    const response = await fetch('https://tz6x8dtfzf.execute-api.eu-west-1.amazonaws.com/prod/BpsdynamicForm', {
       method: 'POST',
+      mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
       },

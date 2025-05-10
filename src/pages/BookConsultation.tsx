@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useForm } from 'react-hook-form';
@@ -56,7 +57,18 @@ const BookConsultation = () => {
   // Handle form submission - now with proper typing
   const onSubmit = async (data: ConsultationFormData) => {
     try {
-      await submitConsultationBooking(data);
+      // Ensure all required fields are present before submitting
+      await submitConsultationBooking({
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        company: data.company,
+        service: data.service,
+        consultationType: data.consultationType,
+        datePreference: data.datePreference,
+        timePreference: data.timePreference,
+        message: data.message
+      });
       toast.success("Consultation request submitted! We'll contact you shortly.");
       form.reset();
     } catch (error) {
