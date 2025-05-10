@@ -6,7 +6,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Label } from "@/components/ui/label";
-import { Send } from 'lucide-react';
+import { Send, Loader } from 'lucide-react';
+import { submitContactForm } from '@/utils/api';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -18,7 +19,10 @@ const ContactForm = () => {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [apiResponse, setApiResponse] = useState<{
+    success: boolean;
+    message: string;
+  } | null>(null);
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -60,9 +64,9 @@ const ContactForm = () => {
       });
     }
     
-    // Clear success message when user makes changes
-    if (successMessage) {
-      setSuccessMessage(null);
+    // Clear API response when user makes changes
+    if (apiResponse) {
+      setApiResponse(null);
     }
   };
 
@@ -76,12 +80,16 @@ const ContactForm = () => {
     
     setIsLoading(true);
     
-    // Display success message and wait 3 seconds
-    setSuccessMessage("Thank you for your message. We'll get back to you within 24 hours.");
-    
-    // Wait 3 seconds then reset form
-    setTimeout(() => {
-      // Reset form
+    try {
+      const response = await submitContactForm(formData);
+      
+      // Handle successful submission
+      setApiResponse({
+        success: true,
+        message: response.message || "Thank you for your message. We'll get back to you within 24 hours."
+      });
+      
+      // Reset form on success
       setFormData({
         fullName: '',
         email: '',
@@ -89,10 +97,25 @@ const ContactForm = () => {
         message: ''
       });
       
-      setIsLoading(false);
-      setSuccessMessage(null);
       toast.success("Form submitted successfully!");
-    }, 3000);
+    } catch (error) {
+      // Handle error
+      console.error('Form submission error:', error);
+      let errorMessage = "An unexpected error occurred. Please try again later.";
+      
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      
+      setApiResponse({
+        success: false,
+        message: errorMessage
+      });
+      
+      toast.error("Form submission failed");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -103,9 +126,17 @@ const ContactForm = () => {
         services or need support, our team is here to help.
       </p>
       
-      {successMessage && (
-        <Alert className="mb-6 bg-green-50 border-green-200">
-          <AlertDescription className="text-green-800">{successMessage}</AlertDescription>
+      {apiResponse && (
+        <Alert 
+          className={`mb-6 ${apiResponse.success 
+            ? 'bg-green-50 border-green-200' 
+            : 'bg-red-50 border-red-200'}`}
+        >
+          <AlertDescription 
+            className={apiResponse.success ? 'text-green-800' : 'text-red-800'}
+          >
+            {apiResponse.message}
+          </AlertDescription>
         </Alert>
       )}
       
@@ -122,6 +153,7 @@ const ContactForm = () => {
             value={formData.fullName}
             onChange={handleChange}
             className={`w-full ${errors.fullName ? "border-destructive" : ""}`}
+            disabled={isLoading}
           />
           {errors.fullName && (
             <p className="text-destructive text-sm mt-1">{errors.fullName}</p>
@@ -141,6 +173,7 @@ const ContactForm = () => {
             value={formData.email}
             onChange={handleChange}
             className={`w-full ${errors.email ? "border-destructive" : ""}`}
+            disabled={isLoading}
           />
           {errors.email && (
             <p className="text-destructive text-sm mt-1">{errors.email}</p>
@@ -160,6 +193,7 @@ const ContactForm = () => {
             value={formData.phoneNumber}
             onChange={handleChange}
             className="w-full"
+            disabled={isLoading}
           />
         </div>
         
@@ -176,6 +210,7 @@ const ContactForm = () => {
             onChange={handleChange}
             rows={5}
             className={`w-full ${errors.message ? "border-destructive" : ""}`}
+            disabled={isLoading}
           />
           {errors.message && (
             <p className="text-destructive text-sm mt-1">{errors.message}</p>
@@ -188,7 +223,15 @@ const ContactForm = () => {
             className="w-full bg-bps-red hover:bg-bps-darkred"
             disabled={isLoading}
           >
-            {isLoading ? "Submitting..." : "Submit"} {!isLoading && <Send size={18} />}
+            {isLoading ? (
+              <>
+                <Loader size={18} className="animate-spin mr-2" /> Submitting...
+              </>
+            ) : (
+              <>
+                Submit <Send size={18} className="ml-2" />
+              </>
+            )}
           </Button>
         </div>
       </form>
