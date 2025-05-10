@@ -26,30 +26,30 @@ const Footer = () => {
           {/* Logo and company info */}
           <div className="space-y-4">
             <Logo className="text-white" />
-            <p className="mt-4 text-sm text-gray-300">
+            <p className="mt-4 text-xs text-gray-300">
               BPS Dynamic delivers expert cloud computing, AI solutions, app development & technology consulting across Africa, Europe & USA.
             </p>
             <div className="flex space-x-4">
               <a href="#" aria-label="LinkedIn" className="text-gray-300 hover:text-white">
-                <Linkedin size={20} />
+                <Linkedin size={16} />
               </a>
               <a href="#" aria-label="Facebook" className="text-gray-300 hover:text-white">
-                <Facebook size={20} />
+                <Facebook size={16} />
               </a>
               <a href="#" aria-label="Twitter" className="text-gray-300 hover:text-white">
-                <Twitter size={20} />
+                <Twitter size={16} />
               </a>
               <a href="#" aria-label="Instagram" className="text-gray-300 hover:text-white">
-                <Instagram size={20} />
+                <Instagram size={16} />
               </a>
             </div>
           </div>
 
           {/* Services - Now organized in two columns */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Our Services</h3>
+            <h3 className="text-base font-semibold mb-3">Our Services</h3>
             <div className="grid grid-cols-2 gap-x-4">
-              <ul className="space-y-2 text-gray-300">
+              <ul className="space-y-2 text-xs text-gray-300">
                 {services.slice(0, 4).map((service, index) => (
                   <li key={index}>
                     <Link 
@@ -61,7 +61,7 @@ const Footer = () => {
                   </li>
                 ))}
               </ul>
-              <ul className="space-y-2 text-gray-300">
+              <ul className="space-y-2 text-xs text-gray-300">
                 {services.slice(4).map((service, index) => (
                   <li key={index}>
                     <Link 
@@ -78,8 +78,8 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-            <ul className="space-y-2 text-gray-300">
+            <h3 className="text-base font-semibold mb-3">Quick Links</h3>
+            <ul className="space-y-2 text-xs text-gray-300">
               <li><Link to="/" className="hover:text-bps-red transition-colors">Home</Link></li>
               <li><Link to="/about" className="hover:text-bps-red transition-colors">About</Link></li>
               <li><Link to="/services" className="hover:text-bps-red transition-colors">Services</Link></li>
@@ -89,27 +89,27 @@ const Footer = () => {
 
           {/* Contact */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
-            <ul className="space-y-2 text-gray-300">
+            <h3 className="text-base font-semibold mb-3">Contact Us</h3>
+            <ul className="space-y-2 text-xs text-gray-300">
               <li className="flex items-start">
-                <MapPin size={20} className="mr-2 mt-1 flex-shrink-0" />
+                <MapPin size={16} className="mr-2 mt-1 flex-shrink-0" />
                 <span>128 Ricard Drive, Midrand South Africa</span>
               </li>
               <li className="flex items-center">
-                <Phone size={20} className="mr-2 flex-shrink-0" />
+                <Phone size={16} className="mr-2 flex-shrink-0" />
                 <span>+27 83 200 2196</span>
               </li>
               <li className="flex items-center">
-                <Mail size={20} className="mr-2 flex-shrink-0" />
+                <Mail size={16} className="mr-2 flex-shrink-0" />
                 <span>info@bpsdynamic.com</span>
               </li>
             </ul>
           </div>
         </div>
 
-        <hr className="my-8 border-gray-800" />
+        <hr className="my-6 border-gray-800" />
         
-        <div className="text-center text-gray-400 text-sm">
+        <div className="text-center text-gray-400 text-xs">
           <p>&copy; {currentYear} BPS Dynamic. All rights reserved.</p>
         </div>
       </div>
