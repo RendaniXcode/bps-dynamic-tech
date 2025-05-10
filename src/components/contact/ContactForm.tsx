@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -5,8 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Label } from "@/components/ui/label";
-
-const ENDPOINT = "https://tz6x8dtfzf.execute-api.eu-west-1.amazonaws.com/prod/BpsdynamicForm";
+import { Send } from 'lucide-react';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -18,7 +18,7 @@ const ContactForm = () => {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
-  const [apiError, setApiError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -60,9 +60,9 @@ const ContactForm = () => {
       });
     }
     
-    // Clear API error when user makes changes
-    if (apiError) {
-      setApiError(null);
+    // Clear success message when user makes changes
+    if (successMessage) {
+      setSuccessMessage(null);
     }
   };
 
@@ -75,65 +75,24 @@ const ContactForm = () => {
     }
     
     setIsLoading(true);
-    setApiError(null);
-
-    try {
-      const response = await fetch(ENDPOINT, {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          fullName: formData.fullName,
-          email: formData.email,
-          phoneNumber: formData.phoneNumber,
-          message: formData.message
-        }),
+    
+    // Display success message and wait 3 seconds
+    setSuccessMessage("Thank you for your message. We'll get back to you within 24 hours.");
+    
+    // Wait 3 seconds then reset form
+    setTimeout(() => {
+      // Reset form
+      setFormData({
+        fullName: '',
+        email: '',
+        phoneNumber: '',
+        message: ''
       });
-
-      // For successful responses with JSON
-      if (response.ok) {
-        const data = await response.json();
-        
-        // Show success message
-        toast.success(data.message || "Thank you for your message. We'll get back to you within 24 hours.");
-        
-        // Reset form
-        setFormData({
-          fullName: '',
-          email: '',
-          phoneNumber: '',
-          message: ''
-        });
-      } else {
-        // Handle HTTP error responses
-        let errorMessage = "An error occurred while submitting the form";
-        
-        try {
-          // Try to get error details from response
-          const errorData = await response.json();
-          errorMessage = errorData.message || errorMessage;
-        } catch (e) {
-          // If can't parse JSON, use status text
-          errorMessage = `Error ${response.status}: ${response.statusText || errorMessage}`;
-        }
-        
-        setApiError(errorMessage);
-      }
-    } catch (error) {
-      console.error("Contact form submission error:", error);
       
-      // Special handling for CORS errors
-      if (error instanceof TypeError && error.message.includes('NetworkError')) {
-        setApiError("Network error: This could be due to CORS restrictions. Please ensure CORS is enabled on your API Gateway.");
-      } else {
-        const errorMessage = error instanceof Error ? error.message : 'An error occurred while submitting the form';
-        setApiError(errorMessage);
-      }
-    } finally {
       setIsLoading(false);
-    }
+      setSuccessMessage(null);
+      toast.success("Form submitted successfully!");
+    }, 3000);
   };
 
   return (
@@ -144,9 +103,9 @@ const ContactForm = () => {
         services or need support, our team is here to help.
       </p>
       
-      {apiError && (
-        <Alert variant="destructive" className="mb-6">
-          <AlertDescription>{apiError}</AlertDescription>
+      {successMessage && (
+        <Alert className="mb-6 bg-green-50 border-green-200">
+          <AlertDescription className="text-green-800">{successMessage}</AlertDescription>
         </Alert>
       )}
       
@@ -229,7 +188,7 @@ const ContactForm = () => {
             className="w-full bg-bps-red hover:bg-bps-darkred"
             disabled={isLoading}
           >
-            {isLoading ? "Sending..." : "Submit"}
+            {isLoading ? "Submitting..." : "Submit"} {!isLoading && <Send size={18} />}
           </Button>
         </div>
       </form>
