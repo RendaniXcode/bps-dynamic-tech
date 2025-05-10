@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
+import { submitContactForm } from '@/utils/api';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -26,10 +27,10 @@ const ContactForm = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate form submission
-    setTimeout(() => {
-      toast({
-        title: "Message Sent!",
+    try {
+      await submitContactForm(formData);
+      
+      toast.success("Message Sent!", {
         description: "Thank you for your message. We'll get back to you within 24 hours.",
       });
       
@@ -39,9 +40,14 @@ const ContactForm = () => {
         phone: '',
         message: ''
       });
-      
+    } catch (error) {
+      toast.error("Message could not be sent", {
+        description: "There was an error sending your message. Please try again later.",
+      });
+      console.error("Contact form submission error:", error);
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (

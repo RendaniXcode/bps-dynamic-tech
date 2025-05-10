@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from "sonner";
 import { CalendarClock, Clock, Users } from "lucide-react";
+import { submitConsultationBooking } from '@/utils/api';
 
 import { Button } from "@/components/ui/button";
 import {
@@ -51,10 +52,17 @@ const BookConsultation = () => {
   });
 
   // Handle form submission
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
-    toast.success("Consultation request submitted! We'll contact you shortly.");
-    form.reset();
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    try {
+      await submitConsultationBooking(data);
+      toast.success("Consultation request submitted! We'll contact you shortly.");
+      form.reset();
+    } catch (error) {
+      toast.error("Submission failed", { 
+        description: "We couldn't process your request. Please try again later."
+      });
+      console.error("Booking submission error:", error);
+    }
   };
 
   // Service options
