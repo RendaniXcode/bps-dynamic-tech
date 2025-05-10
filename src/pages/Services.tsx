@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Card, CardContent } from '@/components/ui/card';
@@ -229,7 +228,6 @@ const ServiceSection = ({
 
 const Services = () => {
   const location = useLocation();
-  const [activeService, setActiveService] = useState<string | null>(null);
   
   useEffect(() => {
     // Check if there's a hash in the URL
@@ -240,28 +238,10 @@ const Services = () => {
       const element = document.getElementById(serviceId);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
-        
-        // Open the popup for the selected service
-        setActiveService(serviceId);
       }
     }
   }, [location]);
 
-  useEffect(() => {
-    if (activeService && serviceDetails[activeService as keyof typeof serviceDetails]) {
-      // Wait a bit to ensure smooth scrolling has completed
-      const timer = setTimeout(() => {
-        // Find the button and click it to open the popup
-        const button = document.querySelector(`#${activeService} button`);
-        if (button instanceof HTMLElement) {
-          button.click();
-        }
-      }, 800);
-      
-      return () => clearTimeout(timer);
-    }
-  }, [activeService]);
-  
   return (
     <>
       <Helmet>
