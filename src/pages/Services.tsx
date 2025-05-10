@@ -1,67 +1,225 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Card, CardContent } from '@/components/ui/card';
 import CTAButton from '@/components/common/CTAButton';
 import { Cloud, Server, Bot, Smartphone, CheckCircle2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import ServiceDetailPopup from '@/components/services/ServiceDetailPopup';
+
+// Define service detail content
+const serviceDetails = {
+  cloud: {
+    title: "Cloud Services Solutions",
+    description: "Our comprehensive cloud services help organizations leverage the full potential of cloud computing across AWS, Azure, and Google Cloud platforms. From migration to optimization and management, we provide end-to-end solutions tailored to your business requirements.",
+    benefits: [
+      "Reduce infrastructure costs by 20-40%",
+      "Improve application performance and scalability",
+      "Enhance security with best-practice implementations",
+      "Access 24/7 managed cloud support",
+      "Optimize cloud spending across multiple platforms",
+      "Accelerate innovation with modern cloud architecture"
+    ],
+    offerings: [
+      {
+        title: "Cloud Migration Services",
+        description: "Move your applications, data, and infrastructure to the cloud with our proven methodology that minimizes disruption and risk."
+      },
+      {
+        title: "Multi-Cloud Architecture",
+        description: "Design resilient, optimized environments across AWS, Azure, and Google Cloud with expert architecture planning."
+      },
+      {
+        title: "Cloud Cost Optimization",
+        description: "Identify and eliminate waste in your cloud spending through our detailed assessment and continuous optimization service."
+      },
+      {
+        title: "Cloud Security Implementation",
+        description: "Protect your cloud resources with comprehensive security protocols, compliance frameworks, and monitoring tools."
+      },
+      {
+        title: "Cloud Managed Services",
+        description: "Get 24/7 monitoring, maintenance, and support for your cloud infrastructure from our team of certified experts."
+      }
+    ]
+  },
+  technology: {
+    title: "Technology Consultation Solutions",
+    description: "Navigate complex technology decisions with confidence through our expert consultation services. We help organizations across Africa, Europe, and the USA develop strategic technology roadmaps aligned with business objectives.",
+    benefits: [
+      "Align technology investments with business goals",
+      "Reduce risk in technology decision-making",
+      "Accelerate digital transformation initiatives",
+      "Optimize existing technology investments",
+      "Develop clear technology implementation roadmaps",
+      "Access specialized expertise across multiple domains"
+    ],
+    offerings: [
+      {
+        title: "Digital Transformation Strategy",
+        description: "Develop a comprehensive plan to leverage technology for business growth and efficiency with practical implementation steps."
+      },
+      {
+        title: "IT Infrastructure Assessment",
+        description: "Evaluate your current systems and identify opportunities for optimization, cost reduction, and performance improvements."
+      },
+      {
+        title: "Technical Architecture Design",
+        description: "Design scalable, secure, and efficient technology architectures that provide a foundation for future growth."
+      },
+      {
+        title: "Vendor Selection & Management",
+        description: "Navigate the complex technology marketplace with expert guidance on vendor evaluation, selection, and ongoing management."
+      },
+      {
+        title: "IT Roadmap Development",
+        description: "Build strategic technology plans aligned with your business objectives, with clear milestones and implementation guidance."
+      }
+    ]
+  },
+  ai: {
+    title: "AI Solutions",
+    description: "Harness the transformative power of artificial intelligence with our practical, results-focused solutions. From strategy to implementation, we help organizations identify and capitalize on AI opportunities.",
+    benefits: [
+      "Automate routine tasks and processes",
+      "Gain insights from unstructured data",
+      "Enhance customer experiences with AI",
+      "Make data-driven decisions faster",
+      "Develop competitive advantages through AI",
+      "Create intelligent applications and workflows"
+    ],
+    offerings: [
+      {
+        title: "AI Strategy & Roadmap",
+        description: "Identify high-impact AI opportunities and create implementation plans aligned with business goals and technical capabilities."
+      },
+      {
+        title: "Custom AI Solution Development",
+        description: "Design and build tailored AI applications using the most appropriate technologies for your specific business needs."
+      },
+      {
+        title: "AI Use Case Workshop",
+        description: "Collaborative discovery sessions to identify practical AI implementation opportunities within your organization."
+      },
+      {
+        title: "Proof of Concept Development",
+        description: "Rapidly prototype AI solutions to validate business value before full implementation and investment."
+      },
+      {
+        title: "Data Science & Machine Learning",
+        description: "Extract actionable insights from your data with advanced analytics, predictive modeling, and machine learning solutions."
+      }
+    ]
+  },
+  app: {
+    title: "App Development Solutions",
+    description: "Create exceptional mobile experiences with our end-to-end application development services. From design to deployment and optimization, we deliver mobile solutions that connect with customers and streamline operations.",
+    benefits: [
+      "Reach customers on their preferred devices",
+      "Streamline business processes with mobile solutions",
+      "Ensure consistent brand experience across platforms",
+      "Guarantee app store approval with our submission expertise",
+      "Implement secure, scalable mobile architecture",
+      "Deliver intuitive, engaging user experiences"
+    ],
+    offerings: [
+      {
+        title: "Custom iOS App Development",
+        description: "Create native applications designed specifically for the Apple ecosystem, optimized for performance and user experience."
+      },
+      {
+        title: "Android Application Development",
+        description: "Build tailored solutions optimized for the diverse Android device landscape with consistent functionality."
+      },
+      {
+        title: "Cross-Platform Development",
+        description: "Develop efficient solutions that work seamlessly across multiple platforms, reducing development time and cost."
+      },
+      {
+        title: "UI/UX Design for Mobile",
+        description: "Design intuitive, engaging interfaces that enhance user satisfaction and drive adoption of your mobile applications."
+      },
+      {
+        title: "App Testing & Quality Assurance",
+        description: "Implement rigorous testing protocols to ensure flawless performance across devices and use cases."
+      }
+    ]
+  }
+};
 
 const ServiceSection = ({ 
   title, 
   description, 
   icon,
   features,
+  serviceKey,
   isReversed = false
 }: { 
   title: string; 
   description: React.ReactNode;
   icon: React.ReactNode;
   features: string[];
+  serviceKey: keyof typeof serviceDetails;
   isReversed?: boolean;
 }) => {
+  const [showDetails, setShowDetails] = useState(false);
+
   return (
-    <div className={`flex flex-col ${isReversed ? 'md:flex-row-reverse' : 'md:flex-row'} gap-8 items-center mb-16`}>
-      <div className="md:w-1/2">
-        <div className="flex items-center mb-4">
-          <div className="p-3 rounded-full bg-bps-lightgray text-bps-red mr-3">
-            {icon}
+    <>
+      <div className={`flex flex-col ${isReversed ? 'md:flex-row-reverse' : 'md:flex-row'} gap-8 items-center mb-16`}>
+        <div className="md:w-1/2">
+          <div className="flex items-center mb-4">
+            <div className="p-3 rounded-full bg-bps-lightgray text-bps-red mr-3">
+              {icon}
+            </div>
+            <h3 className="text-2xl font-bold">{title}</h3>
           </div>
-          <h3 className="text-2xl font-bold">{title}</h3>
+          <div className="prose max-w-none mb-6">
+            {description}
+          </div>
+          <ul className="space-y-2">
+            {features.map((feature, index) => (
+              <li key={index} className="flex items-center">
+                <CheckCircle2 size={20} className="text-bps-red mr-2 flex-shrink-0" />
+                <span>{feature}</span>
+              </li>
+            ))}
+          </ul>
         </div>
-        <div className="prose max-w-none mb-6">
-          {description}
+        <div className="md:w-1/2">
+          <Card className="border-none shadow-lg">
+            <CardContent className="p-0">
+              <div className="bg-gray-200 h-64 w-full rounded-t-lg flex items-center justify-center">
+                <p className="text-gray-500">Service Image</p>
+              </div>
+              <div className="p-6">
+                <h4 className="text-xl font-semibold mb-2">{title} Solutions</h4>
+                <p className="text-gray-600 mb-4">
+                  Tailored {title.toLowerCase()} services designed to meet your specific business requirements.
+                </p>
+                <Button 
+                  onClick={() => setShowDetails(true)}
+                  variant="outline"
+                  className="w-full bg-transparent text-bps-darkblue border-bps-darkblue hover:bg-bps-darkblue hover:text-white" 
+                >
+                  Learn More
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
-        <ul className="space-y-2">
-          {features.map((feature, index) => (
-            <li key={index} className="flex items-center">
-              <CheckCircle2 size={20} className="text-bps-red mr-2 flex-shrink-0" />
-              <span>{feature}</span>
-            </li>
-          ))}
-        </ul>
       </div>
-      <div className="md:w-1/2">
-        <Card className="border-none shadow-lg">
-          <CardContent className="p-0">
-            <div className="bg-gray-200 h-64 w-full rounded-t-lg flex items-center justify-center">
-              <p className="text-gray-500">Service Image</p>
-            </div>
-            <div className="p-6">
-              <h4 className="text-xl font-semibold mb-2">{title} Solutions</h4>
-              <p className="text-gray-600 mb-4">
-                Tailored {title.toLowerCase()} services designed to meet your specific business requirements.
-              </p>
-              <CTAButton 
-                text="Learn More" 
-                to="/contact" 
-                size="sm"
-                variant="outline"
-                className="w-full bg-transparent text-bps-darkblue border-bps-darkblue hover:bg-bps-darkblue hover:text-white" 
-              />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+
+      {/* Service Detail Popup */}
+      <ServiceDetailPopup
+        title={serviceDetails[serviceKey].title}
+        description={serviceDetails[serviceKey].description}
+        benefits={serviceDetails[serviceKey].benefits}
+        offerings={serviceDetails[serviceKey].offerings}
+        isOpen={showDetails}
+        onClose={() => setShowDetails(false)}
+      />
+    </>
   );
 };
 
@@ -92,6 +250,7 @@ const Services = () => {
           <ServiceSection
             title="Cloud Services"
             icon={<Cloud size={32} />}
+            serviceKey="cloud"
             description={
               <p>
                 Cloud computing has revolutionized how businesses operate, but maximizing its potential requires specialized expertise. At BPS Dynamic, we bring over 8 years of experience implementing and optimizing cloud solutions across multiple platforms including AWS, Azure, and Google Cloud.
@@ -109,6 +268,7 @@ const Services = () => {
           <ServiceSection
             title="Technology Consultation"
             icon={<Server size={32} />}
+            serviceKey="technology"
             description={
               <p>
                 In today's rapidly evolving digital landscape, the right technology strategy is critical to business success. BPS Dynamic's consultation services help organizations across Africa, Europe, and the USA navigate complex technology decisions with confidence.
@@ -127,6 +287,7 @@ const Services = () => {
           <ServiceSection
             title="AI Solutions"
             icon={<Bot size={32} />}
+            serviceKey="ai"
             description={
               <p>
                 Artificial Intelligence is transforming business operations, customer experiences, and decision-making processes across industries. BPS Dynamic helps organizations leverage this transformative technology with practical, results-focused AI solutions designed to address specific business challenges.
@@ -144,6 +305,7 @@ const Services = () => {
           <ServiceSection
             title="App Development"
             icon={<Smartphone size={32} />}
+            serviceKey="app"
             description={
               <p>
                 In today's mobile-first world, exceptional app experiences are essential for connecting with customers and streamlining operations. BPS Dynamic delivers end-to-end mobile application development services for iOS and Android platforms, with specialized expertise in navigating the app submission process.
