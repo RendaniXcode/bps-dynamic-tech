@@ -67,6 +67,16 @@ const Footer = () => {
                     <Link 
                       to={`/services#${service.sectionId}`} 
                       className="hover:text-bps-red transition-colors"
+                      onClick={(e) => {
+                        // If already on services page, handle scroll manually
+                        if (window.location.pathname === '/services') {
+                          e.preventDefault();
+                          const element = document.getElementById(service.sectionId);
+                          if (element) {
+                            element.scrollIntoView({ behavior: 'smooth' });
+                          }
+                        }
+                      }}
                     >
                       {service.name}
                     </Link>

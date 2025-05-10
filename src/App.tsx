@@ -26,28 +26,33 @@ const LoadingFallback = () => (
   </div>
 );
 
+const getScrollTo = () => {
+  // @ts-expect-error
+  return <scrollTo/>;
+}
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
+      <Toaster/>
+      <Sonner/>
       <HelmetProvider>
         <BrowserRouter>
+          {getScrollTo()}
           <div className="flex flex-col min-h-screen">
-            <Navbar />
+            <Navbar/>
             <main className="flex-grow">
-              <Suspense fallback={<LoadingFallback />}>
+              <Suspense fallback={<LoadingFallback/>}>
                 <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/services" element={<Services />} />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/book-consultation" element={<BookConsultation />} />
-                  <Route path="*" element={<NotFound />} />
+                  <Route path="/" element={<Index/>}/>
+                  <Route path="/about" element={<About/>}/>
+                  <Route path="/services" element={<Services/>}/>
+                  <Route path="/contact" element={<Contact/>}/>
+                  <Route path="/book-consultation" element={<BookConsultation/>}/>
+                  <Route path="*" element={<NotFound/>}/>
                 </Routes>
               </Suspense>
             </main>
-            <Footer />
+            <Footer/>
           </div>
         </BrowserRouter>
       </HelmetProvider>
