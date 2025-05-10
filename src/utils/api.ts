@@ -13,11 +13,21 @@ export const submitContactForm = async (formData: {
   message: string;
 }) => {
   try {
+    // Mock successful response for development while CORS is restricted
+    if (import.meta.env.DEV) {
+      console.log('DEV MODE: Mock contact form submission', formData);
+      return {
+        success: true,
+        message: 'Thank you for your message. We\'ll get back to you within 24 hours.',
+      };
+    }
+
     const response = await fetch('https://tz6x8dtfzf.execute-api.eu-west-1.amazonaws.com/prod/BpsdynamicForm', {
       method: 'POST',
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
+        'Origin': 'https://bpsdynamic.com' // Adding origin header for CORS
       },
       body: JSON.stringify({
         ...formData,
@@ -55,11 +65,21 @@ export const submitConsultationBooking = async (bookingData: {
   message?: string;
 }) => {
   try {
+    // Mock successful response for development while CORS is restricted
+    if (import.meta.env.DEV) {
+      console.log('DEV MODE: Mock booking submission', bookingData);
+      return {
+        success: true,
+        message: 'Thank you for your booking request. We\'ll confirm your appointment shortly.',
+      };
+    }
+
     const response = await fetch('https://tz6x8dtfzf.execute-api.eu-west-1.amazonaws.com/prod/BookingForm', {
       method: 'POST',
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
+        'Origin': 'https://bpsdynamic.com' // Adding origin header for CORS
       },
       body: JSON.stringify({
         ...bookingData,
