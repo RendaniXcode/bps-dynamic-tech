@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Card, CardContent } from '@/components/ui/card';
 import CTAButton from '@/components/common/CTAButton';
-import { Cloud, Server, Bot, Smartphone, CheckCircle2 } from 'lucide-react';
+import { Cloud, Server, Bot, Smartphone, CheckCircle2, GraduationCap, Database } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ServiceDetailPopup from '@/components/services/ServiceDetailPopup';
 import { useLocation } from 'react-router-dom';
@@ -142,6 +142,74 @@ const serviceDetails = {
       {
         title: "App Testing & Quality Assurance",
         description: "Implement rigorous testing protocols to ensure flawless performance across devices and use cases."
+      }
+    ]
+  },
+  training: {
+    title: "Training Services",
+    description: "Empower your team with our comprehensive training programs tailored for cloud engineering and technical skills development. We design custom training solutions to meet your organization's specific needs and learning objectives.",
+    benefits: [
+      "Customized curriculum based on your organization's needs",
+      "Hands-on practical labs and exercises",
+      "Expert instructors with real-world experience",
+      "Flexible delivery options (on-site, virtual, hybrid)",
+      "Post-training support and resources",
+      "Certification preparation paths"
+    ],
+    offerings: [
+      {
+        title: "Cloud Platform Training (AWS, Azure, GCP)",
+        description: "Comprehensive training on major cloud platforms covering architecture, services, best practices, and certification preparation."
+      },
+      {
+        title: "DevOps and Automation Training",
+        description: "Learn modern DevOps practices, CI/CD pipelines, infrastructure as code, and automation tools to streamline operations."
+      },
+      {
+        title: "Cloud Security Training",
+        description: "Master cloud security principles, compliance frameworks, and security best practices to protect cloud workloads."
+      },
+      {
+        title: "Custom Technical Curriculum",
+        description: "Tailored training programs designed specifically for your team's skill gaps and technology stack."
+      },
+      {
+        title: "Cloud Migration Workshop",
+        description: "Practical workshop focused on planning, executing, and optimizing cloud migrations for various workloads."
+      }
+    ]
+  },
+  datascience: {
+    title: "Data Science Solutions",
+    description: "Transform your raw data into actionable insights with our comprehensive data science services. From data analysis to predictive modeling and machine learning implementation, we help organizations leverage their data assets for competitive advantage.",
+    benefits: [
+      "Extract meaningful insights from complex datasets",
+      "Make data-driven business decisions",
+      "Develop predictive models for forecasting",
+      "Automate data collection and analysis processes",
+      "Visualize data in intuitive, actionable formats",
+      "Build custom machine learning solutions"
+    ],
+    offerings: [
+      {
+        title: "Data Analysis and Visualization",
+        description: "Transform raw data into meaningful insights through advanced statistical analysis and intuitive visual representations."
+      },
+      {
+        title: "Machine Learning Solutions",
+        description: "Custom machine learning models designed to address specific business problems and deliver measurable results."
+      },
+      {
+        title: "Data Science Training",
+        description: "Comprehensive training programs to build your team's capabilities in data analysis, statistics, and machine learning."
+      },
+      {
+        title: "Big Data Infrastructure",
+        description: "Design and implementation of scalable data processing architectures for handling large volumes of data."
+      },
+      {
+        title: "AI Model Deployment",
+        description: "End-to-end implementation of machine learning models into production environments with ongoing optimization."
       }
     ]
   }
@@ -335,6 +403,43 @@ const Services = () => {
               "Cross-Platform Development",
               "UI/UX Design for Mobile",
               "App Testing & Quality Assurance"
+            ]}
+            isReversed
+          />
+
+          <ServiceSection
+            title="Training Services"
+            icon={<GraduationCap size={32} />}
+            serviceKey="training"
+            description={
+              <p>
+                Professional development and skills enhancement are crucial in the rapidly evolving technology landscape. BPS Dynamic offers specialized training programs in cloud engineering and technical skills, with custom-designed curricula tailored to your organization's specific needs and learning objectives.
+              </p>
+            }
+            features={[
+              "Cloud Platform Training (AWS, Azure, GCP)",
+              "DevOps and Automation Training",
+              "Custom Technical Curriculum",
+              "Cloud Security Training",
+              "Cloud Migration Workshop"
+            ]}
+          />
+
+          <ServiceSection
+            title="Data Science"
+            icon={<Database size={32} />}
+            serviceKey="datascience"
+            description={
+              <p>
+                Data is one of your organization's most valuable assets. BPS Dynamic's data science services help you extract meaningful insights, build predictive models, and implement machine learning solutions to drive business growth and operational efficiency.
+              </p>
+            }
+            features={[
+              "Data Analysis and Visualization",
+              "Machine Learning Solutions",
+              "Data Science Training",
+              "Big Data Infrastructure",
+              "AI Model Deployment"
             ]}
             isReversed
           />

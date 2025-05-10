@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Logo from "@/components/ui/logo";
@@ -10,10 +11,12 @@ const Footer = () => {
   const services = [
     { name: "Cloud Consulting", sectionId: "cloud" },
     { name: "Cloud Migration", sectionId: "cloud" },
-    { name: "Cloud Training", sectionId: "cloud" },
+    { name: "Cloud Training", sectionId: "training" },
     { name: "Cloud Optimization", sectionId: "cloud" },
     { name: "AI Solutions", sectionId: "ai" },
-    { name: "App Development", sectionId: "app" }
+    { name: "App Development", sectionId: "app" },
+    { name: "Data Science", sectionId: "datascience" },
+    { name: "Technical Training", sectionId: "training" }
   ];
 
   return (

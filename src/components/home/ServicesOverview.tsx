@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Cloud, Server, Bot, Smartphone } from "lucide-react";
+import { Cloud, Server, Bot, Smartphone, GraduationCap, Database } from "lucide-react";
 import CTAButton from '../common/CTAButton';
 import { Link } from 'react-router-dom';
 
@@ -55,6 +55,18 @@ const ServicesOverview = () => {
       description: "Professional app development for iOS & Android with guaranteed App Store submissions for clients in South Africa, Africa, Europe & USA.",
       icon: <Smartphone size={32} />,
       serviceId: "app"
+    },
+    {
+      title: "Training Services",
+      description: "Custom cloud engineering training programs designed to meet your specific business needs and technical requirements.",
+      icon: <GraduationCap size={32} />,
+      serviceId: "training"
+    },
+    {
+      title: "Data Science",
+      description: "Comprehensive data analysis, machine learning solutions and data science training to help businesses extract valuable insights.",
+      icon: <Database size={32} />,
+      serviceId: "datascience"
     }
   ];
 
@@ -68,7 +80,7 @@ const ServicesOverview = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
             <ServiceCard
               key={index}
