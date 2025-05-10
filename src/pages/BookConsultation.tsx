@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from "sonner";
-import { CalendarClock, Clock, Users } from "lucide-react";
+import { CalendarClock, Clock, Users, DollarSign } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -18,8 +18,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -27,6 +28,7 @@ const formSchema = z.object({
   phone: z.string().min(6, { message: "Please enter a valid phone number." }),
   company: z.string().optional(),
   service: z.string().min(1, { message: "Please select a service." }),
+  consultationType: z.string().min(1, { message: "Please select a consultation type." }),
   datePreference: z.string().min(1, { message: "Please provide a preferred date." }),
   timePreference: z.string().min(1, { message: "Please provide a preferred time." }),
   message: z.string().optional(),
@@ -42,6 +44,7 @@ const BookConsultation = () => {
       phone: "",
       company: "",
       service: "",
+      consultationType: "online",
       datePreference: "",
       timePreference: "",
       message: "",
@@ -63,6 +66,28 @@ const BookConsultation = () => {
     { value: "datascience", label: "Data Science" },
     { value: "training", label: "Technical Training" },
     { value: "other", label: "Other Services" },
+  ];
+
+  // Consultation type options
+  const consultationTypes = [
+    { 
+      id: "online", 
+      title: "Online Consultation", 
+      description: "30-minute free video call", 
+      fee: "Free"
+    },
+    { 
+      id: "onsite-1h", 
+      title: "On-site (1 hour)", 
+      description: "In-person consultation at your location", 
+      fee: "R950" 
+    },
+    { 
+      id: "onsite-2h", 
+      title: "On-site (2 hours)", 
+      description: "Extended in-person consultation", 
+      fee: "R1800" 
+    }
   ];
 
   return (
@@ -179,6 +204,43 @@ const BookConsultation = () => {
                             </FormItem>
                           )}
                         />
+                        
+                        <FormField
+                          control={form.control}
+                          name="consultationType"
+                          render={({ field }) => (
+                            <FormItem className="md:col-span-2">
+                              <FormLabel>Consultation Type</FormLabel>
+                              <FormControl>
+                                <RadioGroup
+                                  onValueChange={field.onChange}
+                                  defaultValue={field.value}
+                                  className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2"
+                                >
+                                  {consultationTypes.map((type) => (
+                                    <FormItem key={type.id} className="flex flex-col items-center space-x-0 space-y-0 rounded-md border p-4 hover:bg-gray-50 [&:has([data-state=checked])]:border-bps-red [&:has([data-state=checked])]:bg-red-50">
+                                      <FormControl>
+                                        <RadioGroupItem value={type.id} id={type.id} className="sr-only" />
+                                      </FormControl>
+                                      <label
+                                        htmlFor={type.id}
+                                        className="w-full cursor-pointer text-center"
+                                      >
+                                        <div className="font-semibold">{type.title}</div>
+                                        <div className="text-sm text-gray-500 mt-1">{type.description}</div>
+                                        <div className="mt-2 font-medium text-bps-red flex items-center justify-center">
+                                          <DollarSign className="h-4 w-4 mr-1" />
+                                          {type.fee}
+                                        </div>
+                                      </label>
+                                    </FormItem>
+                                  ))}
+                                </RadioGroup>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:col-span-2">
                           <FormField
@@ -247,8 +309,8 @@ const BookConsultation = () => {
                     <li className="flex items-start">
                       <Clock className="mr-3 text-bps-red shrink-0 mt-1" size={20} />
                       <div>
-                        <span className="font-medium block">30-60 Minute Session</span>
-                        <span className="text-sm text-gray-600">Focused on your specific needs</span>
+                        <span className="font-medium block">Tailored Consultation</span>
+                        <span className="text-sm text-gray-600">Online (30 min) or on-site (1-2 hours)</span>
                       </div>
                     </li>
                     <li className="flex items-start">
