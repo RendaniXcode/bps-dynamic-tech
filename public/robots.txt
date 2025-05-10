@@ -1,4 +1,14 @@
+# BPS Dynamic Website Robots.txt
+# Allow all web crawlers to access all content
+User-agent: *
+Allow: /
 
+# Sitemap location (complete site map with all pages)
+Sitemap: https://bpsdynamic.com/sitemap.xml
+
+# Last updated: 2023-11-01
+# Generated with BPS Dynamic sitemap generator
+# To update this file, run: npm run generate-sitemap
 User-agent: *
 Allow: /
 

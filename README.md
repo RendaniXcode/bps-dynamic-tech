@@ -68,3 +68,17 @@ You can deploy this project using any standard React deployment workflow:
 
 ## Domain Information
 BPS Dynamic is hosted at [bpsdynamic.com](https://bpsdynamic.com). This domain is already configured and active for the project.
+
+## SEO Information
+The website includes SEO optimization with:
+- Sitemap: [https://bpsdynamic.com/sitemap.xml](https://bpsdynamic.com/sitemap.xml)
+- Robots.txt: [https://bpsdynamic.com/robots.txt](https://bpsdynamic.com/robots.txt)
+
+These files help search engines properly index the website's content.
+
+### Generating the Sitemap
+To update the sitemap.xml file with the latest pages and dates:
+
+```sh
+# Generate a fresh sitemap
+npm run generate-sitemap

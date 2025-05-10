@@ -9,7 +9,8 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test:api": "ts-node --transpile-only src/utils/testing/api-test.ts"
+    "test:api": "ts-node --transpile-only src/utils/testing/api-test.ts",
+    "generate-sitemap": "node scripts/generate-sitemap.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

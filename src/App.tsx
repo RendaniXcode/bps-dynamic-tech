@@ -26,16 +26,18 @@ const LoadingFallback = () => (
   </div>
 );
 
-// @ts-ignore
-// @ts-ignore
+// Import SEO component
+import SEO from './components/layout/SEO';
+
+// App component
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster/>
       <Sonner/>
       <HelmetProvider>
+        <SEO />
         <BrowserRouter>
-          {scrollTo()}
           <div className="flex flex-col min-h-screen">
             <Navbar/>
             <main className="flex-grow">
