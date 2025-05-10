@@ -318,14 +318,14 @@ const Services = () => {
         <meta name="description" content="Explore BPS Dynamic's comprehensive technology services including cloud solutions, AI development, app development and technology consulting." />
       </Helmet>
 
-      {/* Hero Section - Updated with better padding and spacing */}
-      <div className="bg-gradient-to-br from-gray-50 to-gray-100 py-20 md:py-24">
+      {/* Hero Section - Updated with improved padding and spacing */}
+      <div className="bg-gradient-to-br from-gray-50 to-gray-100 py-20 md:py-28">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="mb-6">
-            <span className="block text-gradient">Technology Solutions</span>
+          <h1 className="mb-8">
+            <span className="block text-gradient mb-3">Technology Solutions</span>
             <span className="block text-bps-darkblue mt-2">That Power Business Success</span>
           </h1>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto mt-4">
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto mt-6">
             Our comprehensive suite of services is designed to support your digital transformation journey from strategy to implementation and optimization.
           </p>
         </div>

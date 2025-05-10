@@ -11,7 +11,7 @@ const Footer = () => {
   const services = [
     { name: "Cloud Consulting", sectionId: "cloud" },
     { name: "Cloud Migration", sectionId: "cloud" },
-    { name: "Cloud Training", sectionId: "training" },
+    { name: "Cloud Training", sectionId: "cloud" },
     { name: "Cloud Optimization", sectionId: "cloud" },
     { name: "AI Solutions", sectionId: "ai" },
     { name: "App Development", sectionId: "app" },
@@ -45,21 +45,35 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Services */}
+          {/* Services - Now organized in two columns */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Our Services</h3>
-            <ul className="space-y-2 text-gray-300">
-              {services.map((service, index) => (
-                <li key={index}>
-                  <Link 
-                    to={`/services#${service.sectionId}`} 
-                    className="hover:text-bps-red transition-colors"
-                  >
-                    {service.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <div className="grid grid-cols-2 gap-x-4">
+              <ul className="space-y-2 text-gray-300">
+                {services.slice(0, 4).map((service, index) => (
+                  <li key={index}>
+                    <Link 
+                      to={`/services#${service.sectionId}`} 
+                      className="hover:text-bps-red transition-colors"
+                    >
+                      {service.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <ul className="space-y-2 text-gray-300">
+                {services.slice(4).map((service, index) => (
+                  <li key={index}>
+                    <Link 
+                      to={`/services#${service.sectionId}`} 
+                      className="hover:text-bps-red transition-colors"
+                    >
+                      {service.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
           {/* Quick Links */}
