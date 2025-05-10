@@ -1,5 +1,16 @@
 # Welcome to BPS Dynamic
+# BPS Dynamic Website
 
+## API Integration
+
+This project integrates with AWS API Gateway for form submissions. There are two primary endpoints:
+
+1. Contact Form - For general inquiries
+2. Booking Form - For scheduling consultations
+
+### Environment Setup
+
+To configure the API endpoints, create a `.env` file based on the `.env.example` template:
 ## Project info
 This repository contains the source code for the BPS Dynamic application.
 

@@ -1,0 +1,35 @@
+version: 1
+backend:
+  phases:
+    build:
+      commands:
+        - echo "No backend build required"
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        - echo "VITE_API_BASE_URL=https://tz6x8dtfzf.execute-api.eu-west-1.amazonaws.com/prod" >> .env.production
+        - echo "VITE_API_MOCK_ENABLED=true" >> .env.production
+        - echo "VITE_API_TIMEOUT=15000" >> .env.production
+        - echo "VITE_API_RETRIES=2" >> .env.production
+        - echo "VITE_API_COOLDOWN=3000" >> .env.production
+        - npm run build
+  artifacts:
+    baseDirectory: dist
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+  customHeaders:
+    - pattern: '**/*'
+      headers:
+        - key: Cache-Control
+          value: 'public, max-age=0, must-revalidate'
+    - pattern: '/'
+      headers:
+        - key: Cache-Control
+          value: 'public, max-age=0, must-revalidate'
