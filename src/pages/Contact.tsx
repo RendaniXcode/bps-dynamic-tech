@@ -33,21 +33,6 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* Map Section */}
-      <section className="py-16 bg-bps-lightgray">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-bps-darkblue mb-4">Our Location</h2>
-            <p className="text-gray-600">
-              128 Ricard Drive, Midrand South Africa
-            </p>
-          </div>
-          <div className="bg-gray-300 h-96 rounded-lg w-full flex items-center justify-center">
-            <p className="text-gray-500">Google Map Embed would go here</p>
-          </div>
-        </div>
-      </section>
-
       {/* FAQ Section */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
