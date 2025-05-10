@@ -4,16 +4,46 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { submitContactForm } from '@/utils/api';
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Label } from "@/components/ui/label";
+
+const ENDPOINT = "https://tz6x8dtfzf.execute-api.eu-west-1.amazonaws.com/prod/BpsdynamicForm";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
-    phone: '',
+    phoneNumber: '',
     message: ''
   });
+
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+    
+    // Validate fullName
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = "Full name is required";
+    }
+    
+    // Validate email
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+    
+    // Validate message
+    if (!formData.message.trim()) {
+      newErrors.message = "Message is required";
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -21,30 +51,68 @@ const ContactForm = () => {
       ...prev,
       [name]: value
     }));
+    
+    // Clear error for this field when user types
+    if (errors[name]) {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[name];
+        return newErrors;
+      });
+    }
+    
+    // Clear API error when user makes changes
+    if (apiError) {
+      setApiError(null);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate form before submission
+    if (!validateForm()) {
+      return;
+    }
+    
     setIsLoading(true);
+    setApiError(null);
 
     try {
-      await submitContactForm(formData);
-      
-      toast.success("Message Sent!", {
-        description: "Thank you for your message. We'll get back to you within 24 hours.",
+      const response = await fetch(ENDPOINT, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          email: formData.email,
+          phoneNumber: formData.phoneNumber,
+          message: formData.message
+        }),
       });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'An error occurred while submitting the form');
+      }
+
+      // Show success message
+      toast.success(data.message || "Thank you for your message. We'll get back to you within 24 hours.");
       
+      // Reset form
       setFormData({
         fullName: '',
         email: '',
-        phone: '',
+        phoneNumber: '',
         message: ''
       });
     } catch (error) {
-      toast.error("Message could not be sent", {
-        description: "There was an error sending your message. Please try again later.",
-      });
       console.error("Contact form submission error:", error);
+      const errorMessage = error instanceof Error ? error.message : 'An error occurred while submitting the form';
+      setApiError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -58,60 +126,94 @@ const ContactForm = () => {
         services or need support, our team is here to help.
       </p>
       
+      {apiError && (
+        <Alert variant="destructive" className="mb-6">
+          <AlertDescription>{apiError}</AlertDescription>
+        </Alert>
+      )}
+      
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
+          <div className="mb-1">
+            <Label htmlFor="fullName" className={errors.fullName ? "text-destructive" : ""}>
+              Full Name *
+            </Label>
+          </div>
           <Input
+            id="fullName"
             name="fullName"
             value={formData.fullName}
             onChange={handleChange}
-            placeholder="Full Name"
-            required
-            className="w-full"
+            className={`w-full ${errors.fullName ? "border-destructive" : ""}`}
           />
+          {errors.fullName && (
+            <p className="text-destructive text-sm mt-1">{errors.fullName}</p>
+          )}
         </div>
         
         <div>
+          <div className="mb-1">
+            <Label htmlFor="email" className={errors.email ? "text-destructive" : ""}>
+              Email Address *
+            </Label>
+          </div>
           <Input
+            id="email"
             name="email"
             type="email"
             value={formData.email}
             onChange={handleChange}
-            placeholder="Your Email"
-            required
-            className="w-full"
+            className={`w-full ${errors.email ? "border-destructive" : ""}`}
           />
+          {errors.email && (
+            <p className="text-destructive text-sm mt-1">{errors.email}</p>
+          )}
         </div>
         
         <div>
+          <div className="mb-1">
+            <Label htmlFor="phoneNumber">
+              Phone Number (optional)
+            </Label>
+          </div>
           <Input
-            name="phone"
+            id="phoneNumber"
+            name="phoneNumber"
             type="tel"
-            value={formData.phone}
+            value={formData.phoneNumber}
             onChange={handleChange}
-            placeholder="Phone number"
             className="w-full"
           />
         </div>
         
         <div>
+          <div className="mb-1">
+            <Label htmlFor="message" className={errors.message ? "text-destructive" : ""}>
+              Message *
+            </Label>
+          </div>
           <Textarea
+            id="message"
             name="message"
             value={formData.message}
             onChange={handleChange}
-            placeholder="How can we help?"
             rows={5}
-            required
-            className="w-full"
+            className={`w-full ${errors.message ? "border-destructive" : ""}`}
           />
+          {errors.message && (
+            <p className="text-destructive text-sm mt-1">{errors.message}</p>
+          )}
         </div>
         
-        <Button
-          type="submit"
-          className="w-full bg-bps-red hover:bg-bps-darkred"
-          disabled={isLoading}
-        >
-          {isLoading ? "Sending..." : "Submit"}
-        </Button>
+        <div className="mt-2">
+          <Button
+            type="submit"
+            className="w-full bg-bps-red hover:bg-bps-darkred"
+            disabled={isLoading}
+          >
+            {isLoading ? "Sending..." : "Submit"}
+          </Button>
+        </div>
       </form>
     </div>
   );
