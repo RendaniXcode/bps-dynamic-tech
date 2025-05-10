@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -93,26 +92,45 @@ const ContactForm = () => {
         }),
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'An error occurred while submitting the form');
+      // For successful responses with JSON
+      if (response.ok) {
+        const data = await response.json();
+        
+        // Show success message
+        toast.success(data.message || "Thank you for your message. We'll get back to you within 24 hours.");
+        
+        // Reset form
+        setFormData({
+          fullName: '',
+          email: '',
+          phoneNumber: '',
+          message: ''
+        });
+      } else {
+        // Handle HTTP error responses
+        let errorMessage = "An error occurred while submitting the form";
+        
+        try {
+          // Try to get error details from response
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorMessage;
+        } catch (e) {
+          // If can't parse JSON, use status text
+          errorMessage = `Error ${response.status}: ${response.statusText || errorMessage}`;
+        }
+        
+        setApiError(errorMessage);
       }
-
-      // Show success message
-      toast.success(data.message || "Thank you for your message. We'll get back to you within 24 hours.");
-      
-      // Reset form
-      setFormData({
-        fullName: '',
-        email: '',
-        phoneNumber: '',
-        message: ''
-      });
     } catch (error) {
       console.error("Contact form submission error:", error);
-      const errorMessage = error instanceof Error ? error.message : 'An error occurred while submitting the form';
-      setApiError(errorMessage);
+      
+      // Special handling for CORS errors
+      if (error instanceof TypeError && error.message.includes('NetworkError')) {
+        setApiError("Network error: This could be due to CORS restrictions. Please ensure CORS is enabled on your API Gateway.");
+      } else {
+        const errorMessage = error instanceof Error ? error.message : 'An error occurred while submitting the form';
+        setApiError(errorMessage);
+      }
     } finally {
       setIsLoading(false);
     }

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useForm } from 'react-hook-form';
@@ -34,9 +33,12 @@ const formSchema = z.object({
   message: z.string().optional(),
 });
 
+// Type for the form data based on the schema
+type ConsultationFormData = z.infer<typeof formSchema>;
+
 const BookConsultation = () => {
   // Define the form with validation
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<ConsultationFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
@@ -51,8 +53,8 @@ const BookConsultation = () => {
     },
   });
 
-  // Handle form submission
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+  // Handle form submission - now with proper typing
+  const onSubmit = async (data: ConsultationFormData) => {
     try {
       await submitConsultationBooking(data);
       toast.success("Consultation request submitted! We'll contact you shortly.");

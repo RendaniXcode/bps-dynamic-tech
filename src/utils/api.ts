@@ -9,7 +9,7 @@
 export const submitContactForm = async (formData: {
   fullName: string;
   email: string;
-  phone: string;
+  phoneNumber: string;
   message: string;
 }) => {
   try {
