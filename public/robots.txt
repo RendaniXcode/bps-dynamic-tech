@@ -1,14 +1,18 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
 
 User-agent: *
 Allow: /
+
+# Sitemaps
+Sitemap: https://bpsdynamic.com/sitemap.xml
+
+# Disallow patterns
+Disallow: /api/
+Disallow: /admin/
+Disallow: /private/
+
+# Crawl delay for certain bots
+User-agent: AdsBot-Google
+Crawl-delay: 1
+
+User-agent: Baiduspider
+Crawl-delay: 5
