@@ -58,6 +58,7 @@ const BookConsultation = () => {
   const onSubmit = async (data: ConsultationFormData) => {
     try {
       // Ensure all required fields are present before submitting
+      // The formSchema validation ensures these fields will be present
       await submitConsultationBooking({
         name: data.name,
         email: data.email,
