@@ -67,11 +67,11 @@ const BookConsultation = () => {
     { value: "other", label: "Other Services" },
   ];
 
-  // Consultation type options
+  // Consultation type options with updated pricing to include travel time
   const consultationTypes = [
     { value: "online", label: "Online Consultation (30-minute free video call)" },
-    { value: "onsite-1h", label: "On-site (1 hour - R950 + travel time)" },
-    { value: "onsite-2h", label: "On-site (2 hours - R1800 + travel time)" },
+    { value: "onsite-1h", label: "On-site (1 hour - R950 + R1900 travel time)" },
+    { value: "onsite-2h", label: "On-site (2 hours - R1900 + R1900 travel time)" },
   ];
 
   return (
