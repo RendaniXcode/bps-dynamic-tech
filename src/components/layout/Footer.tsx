@@ -30,16 +30,16 @@ const Footer = () => {
               BPS Dynamic delivers expert cloud computing, AI solutions, app development & technology consulting across Africa, Europe & USA.
             </p>
             <div className="flex space-x-4">
-              <a href="#" aria-label="LinkedIn" className="text-gray-300 hover:text-white">
+              <a href="https://linkedin.com/company/bpsdynamic" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-gray-300 hover:text-white">
                 <Linkedin size={16} />
               </a>
-              <a href="#" aria-label="Facebook" className="text-gray-300 hover:text-white">
+              <a href="https://facebook.com/bpsdynamic" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-gray-300 hover:text-white">
                 <Facebook size={16} />
               </a>
-              <a href="#" aria-label="Twitter" className="text-gray-300 hover:text-white">
+              <a href="https://twitter.com/bpsdynamic" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="text-gray-300 hover:text-white">
                 <Twitter size={16} />
               </a>
-              <a href="#" aria-label="Instagram" className="text-gray-300 hover:text-white">
+              <a href="https://instagram.com/bpsdynamic" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-gray-300 hover:text-white">
                 <Instagram size={16} />
               </a>
             </div>
