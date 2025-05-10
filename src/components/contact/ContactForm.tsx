@@ -1,87 +1,57 @@
 
-import React, { useState } from 'react';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Label } from "@/components/ui/label";
 import { Send, Loader } from 'lucide-react';
 import { submitContactForm } from '@/utils/api';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useState } from "react";
+
+// Define the form validation schema using Zod
+const contactFormSchema = z.object({
+  fullName: z.string().min(1, "Full name is required"),
+  email: z.string().min(1, "Email is required").email("Please enter a valid email address"),
+  phoneNumber: z.string().optional(),
+  message: z.string().min(1, "Message is required"),
+});
+
+// Define the type based on our schema
+type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 const ContactForm = () => {
-  const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    phoneNumber: '',
-    message: ''
-  });
-
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [isLoading, setIsLoading] = useState(false);
   const [apiResponse, setApiResponse] = useState<{
     success: boolean;
     message: string;
   } | null>(null);
 
-  const validateForm = () => {
-    const newErrors: Record<string, string> = {};
-    
-    // Validate fullName
-    if (!formData.fullName.trim()) {
-      newErrors.fullName = "Full name is required";
-    }
-    
-    // Validate email
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email address";
-    }
-    
-    // Validate message
-    if (!formData.message.trim()) {
-      newErrors.message = "Message is required";
-    }
-    
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+  // Initialize React Hook Form with Zod resolver
+  const form = useForm<ContactFormValues>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      fullName: "",
+      email: "",
+      phoneNumber: "",
+      message: "",
+    },
+  });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-    
-    // Clear error for this field when user types
-    if (errors[name]) {
-      setErrors(prev => {
-        const newErrors = { ...prev };
-        delete newErrors[name];
-        return newErrors;
-      });
-    }
-    
-    // Clear API response when user makes changes
-    if (apiResponse) {
-      setApiResponse(null);
-    }
-  };
+  const { isSubmitting } = form.formState;
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Validate form before submission
-    if (!validateForm()) {
-      return;
-    }
-    
-    setIsLoading(true);
-    
+  const onSubmit = async (data: ContactFormValues) => {
     try {
-      const response = await submitContactForm(formData);
+      const response = await submitContactForm(data);
       
       // Handle successful submission
       setApiResponse({
@@ -90,12 +60,7 @@ const ContactForm = () => {
       });
       
       // Reset form on success
-      setFormData({
-        fullName: '',
-        email: '',
-        phoneNumber: '',
-        message: ''
-      });
+      form.reset();
       
       toast.success("Form submitted successfully!");
     } catch (error) {
@@ -113,8 +78,6 @@ const ContactForm = () => {
       });
       
       toast.error("Form submission failed");
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -140,90 +103,75 @@ const ContactForm = () => {
         </Alert>
       )}
       
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <div className="mb-1">
-            <Label htmlFor="fullName" className={errors.fullName ? "text-destructive" : ""}>
-              Full Name *
-            </Label>
-          </div>
-          <Input
-            id="fullName"
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <FormField
+            control={form.control}
             name="fullName"
-            value={formData.fullName}
-            onChange={handleChange}
-            className={`w-full ${errors.fullName ? "border-destructive" : ""}`}
-            disabled={isLoading}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Full Name *</FormLabel>
+                <FormControl>
+                  <Input placeholder="Your full name" {...field} disabled={isSubmitting} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          {errors.fullName && (
-            <p className="text-destructive text-sm mt-1">{errors.fullName}</p>
-          )}
-        </div>
-        
-        <div>
-          <div className="mb-1">
-            <Label htmlFor="email" className={errors.email ? "text-destructive" : ""}>
-              Email Address *
-            </Label>
-          </div>
-          <Input
-            id="email"
+
+          <FormField
+            control={form.control}
             name="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
-            className={`w-full ${errors.email ? "border-destructive" : ""}`}
-            disabled={isLoading}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email Address *</FormLabel>
+                <FormControl>
+                  <Input type="email" placeholder="your.email@example.com" {...field} disabled={isSubmitting} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          {errors.email && (
-            <p className="text-destructive text-sm mt-1">{errors.email}</p>
-          )}
-        </div>
-        
-        <div>
-          <div className="mb-1">
-            <Label htmlFor="phoneNumber">
-              Phone Number (optional)
-            </Label>
-          </div>
-          <Input
-            id="phoneNumber"
+
+          <FormField
+            control={form.control}
             name="phoneNumber"
-            type="tel"
-            value={formData.phoneNumber}
-            onChange={handleChange}
-            className="w-full"
-            disabled={isLoading}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Phone Number (optional)</FormLabel>
+                <FormControl>
+                  <Input type="tel" placeholder="+1 (555) 123-4567" {...field} disabled={isSubmitting} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </div>
-        
-        <div>
-          <div className="mb-1">
-            <Label htmlFor="message" className={errors.message ? "text-destructive" : ""}>
-              Message *
-            </Label>
-          </div>
-          <Textarea
-            id="message"
+
+          <FormField
+            control={form.control}
             name="message"
-            value={formData.message}
-            onChange={handleChange}
-            rows={5}
-            className={`w-full ${errors.message ? "border-destructive" : ""}`}
-            disabled={isLoading}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Message *</FormLabel>
+                <FormControl>
+                  <Textarea 
+                    placeholder="How can we help you?" 
+                    rows={5} 
+                    {...field} 
+                    disabled={isSubmitting} 
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          {errors.message && (
-            <p className="text-destructive text-sm mt-1">{errors.message}</p>
-          )}
-        </div>
-        
-        <div className="mt-2">
+          
           <Button
             type="submit"
             className="w-full bg-bps-red hover:bg-bps-darkred"
-            disabled={isLoading}
+            disabled={isSubmitting}
           >
-            {isLoading ? (
+            {isSubmitting ? (
               <>
                 <Loader size={18} className="animate-spin mr-2" /> Submitting...
               </>
@@ -233,8 +181,8 @@ const ContactForm = () => {
               </>
             )}
           </Button>
-        </div>
-      </form>
+        </form>
+      </Form>
     </div>
   );
 };

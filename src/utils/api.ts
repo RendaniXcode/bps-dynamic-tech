@@ -9,7 +9,7 @@
 export const submitContactForm = async (formData: {
   fullName: string;
   email: string;
-  phoneNumber: string;
+  phoneNumber?: string;
   message: string;
 }) => {
   try {
@@ -55,8 +55,9 @@ export const submitConsultationBooking = async (bookingData: {
   message?: string;
 }) => {
   try {
-    const response = await fetch('https://api.bpsdynamic.com/booking', {
+    const response = await fetch('https://tz6x8dtfzf.execute-api.eu-west-1.amazonaws.com/prod/BookingForm', {
       method: 'POST',
+      mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
       },
