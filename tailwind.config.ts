@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,14 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// BPS Dynamic brand colors
+				bps: {
+					red: '#cf2e2e',
+					darkred: '#b02626',
+					darkblue: '#0f172a',
+					lightgray: '#f7f9fc',
+					gray: '#8E9196'
 				}
 			},
 			borderRadius: {

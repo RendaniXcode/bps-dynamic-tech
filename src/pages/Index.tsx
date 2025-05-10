@@ -1,13 +1,23 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React from 'react';
+import Hero from '@/components/home/Hero';
+import IntroSection from '@/components/home/IntroSection';
+import ServicesOverview from '@/components/home/ServicesOverview';
+import ProcessSection from '@/components/home/ProcessSection';
+import { Helmet } from 'react-helmet';
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <>
+      <Helmet>
+        <title>BPS Dynamic | Cloud & AI Solutions | App Development | Technology Consulting</title>
+        <meta name="description" content="BPS Dynamic delivers expert cloud computing, AI solutions, app development & technology consulting across Africa, Europe & USA. 8+ years experience. Free consultation." />
+      </Helmet>
+      <Hero />
+      <IntroSection />
+      <ServicesOverview />
+      <ProcessSection />
+    </>
   );
 };
 
