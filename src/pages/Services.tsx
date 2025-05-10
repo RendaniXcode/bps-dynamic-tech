@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Card, CardContent } from '@/components/ui/card';
@@ -317,14 +318,14 @@ const Services = () => {
         <meta name="description" content="Explore BPS Dynamic's comprehensive technology services including cloud solutions, AI development, app development and technology consulting." />
       </Helmet>
 
-      {/* Hero Section */}
-      <div className="bg-gradient-to-br from-gray-50 to-gray-100 py-16 md:py-20">
+      {/* Hero Section - Updated with better padding and spacing */}
+      <div className="bg-gradient-to-br from-gray-50 to-gray-100 py-20 md:py-24">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="mb-4">
+          <h1 className="mb-6">
             <span className="block text-gradient">Technology Solutions</span>
-            <span className="block text-bps-darkblue">That Power Business Success</span>
+            <span className="block text-bps-darkblue mt-2">That Power Business Success</span>
           </h1>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto mt-4">
             Our comprehensive suite of services is designed to support your digital transformation journey from strategy to implementation and optimization.
           </p>
         </div>
